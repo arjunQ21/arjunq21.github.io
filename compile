@@ -1,0 +1,100 @@
+<?php
+echo "\nServer like implementation for Static Pages.\nWritten by: Arjun Adhikari\nurl: arjunq21.github.io\n\nUsage:\nphp compile => Creates .html files for php files in this directory(searching recursively), except the ones in '$"."toSkip' Array.\nphp compile off => Removes those created .html files.\n";
+
+
+$toSkip = [
+    realpath('./.git'),
+    realpath('./images'),
+    realpath('./scripts'),
+    realpath("./tools.php"),
+    realpath('./projects.php'),
+    realpath('./contacts.php'),
+];
+
+$filesToCompile = [] ;
+
+scanPhpFiles();
+
+$compile = true ;
+
+if(isset($argv[1])){
+    if($argv[1] == 'off'){
+        $compile = false ;
+    }
+}
+
+if(count($filesToCompile)){
+    if($compile){
+        echo "\n\nFound php files for compiling: ".PHP_EOL."\t". implode(PHP_EOL."\t", $filesToCompile) ;
+        echo "\n\nCompiling...\n";
+        foreach ($filesToCompile as $absPath ) {
+            $parentDir = pathinfo($absPath, PATHINFO_DIRNAME) ;
+            $fileName = $parentDir."/". pathinfo($absPath, PATHINFO_FILENAME).".html" ;
+            $handle = fopen($fileName, 'w') ;
+            fclose($handle) ;
+            file_put_contents($fileName, htmlResponseOf($absPath)) ;
+            echo "\nCreated file '$fileName'.";
+        }
+        echo "\n\nFinished Compiling.. :)\n\n";
+    }else{
+        echo "\n\nRemoving .html versions of ".PHP_EOL."\t". implode(PHP_EOL."\t", $filesToCompile)."\n\n" ;
+        foreach ($filesToCompile as $absPath) {
+            $fileName = pathinfo($absPath, PATHINFO_DIRNAME)."/". pathinfo($absPath, PATHINFO_FILENAME).".html" ;
+            echo "\nDeleting '$fileName'." ;
+            try{
+                unlink($fileName) ;
+                echo "\nDeleted '$fileName'." ;
+            }catch(Exception $e){
+                echo "\n".$e->getMessage() ;
+            }
+        }
+    }
+}else{
+    echo "\n\nNo php files found :( " ;
+}
+
+/* Functions */
+
+function htmlResponseOf($filePath){
+    $filePath = realpath($filePath) ;
+    if(!file_exists($filePath)){
+        throw new Exception("Invalid file path '$filePath'.");
+    }
+    $a ;
+    exec("php $filePath", $a) ;
+    return linksWithHtml(implode(PHP_EOL, $a)) ;
+}   
+
+function linksWithHtml($string){
+    return preg_replace("/href ?= ?([\"|'])(.+)\\.php([\"|'])/", "href = \"$2.html\" ", $string) ;
+}
+
+function scanPhpFiles($path = "./"){
+    global $filesToCompile, $toSkip ; 
+    $currentParentDir = realpath($path) ;
+    if(!($path)){
+        echo "\n'$path' is not a path." ;
+    }else{
+        echo "\nScanning '$currentParentDir' for php files." ;
+    }
+    foreach (scandir($currentParentDir) as $contents) {
+        $absPath = realpath($currentParentDir."/".$contents) ;
+        if(in_array($absPath, $toSkip)){
+            echo "\nSkipped '$absPath'" ;
+            continue ;
+        }
+        if(is_file($absPath)){
+            if(strtolower(pathinfo($contents, PATHINFO_EXTENSION)) == 'php' ){
+                // echo "\nFound PHP file: '$absPath'" ;
+                $filesToCompile[] = $absPath ;
+            }
+        }
+        if(is_dir($absPath)){
+            if($contents == '.' || $contents == '..'){
+                // echo "\n$contents" ;
+            }else{
+                scanPhpFiles($currentParentDir."/".$contents) ;
+            }
+        }
+    }
+}

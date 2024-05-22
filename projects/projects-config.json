@@ -1,0 +1,46 @@
+{
+    "padxu": {
+        "showName": "Padxu",
+        "tags": [
+            "laravel",
+            "bootstrap",
+            "html5"
+        ],
+        "time": "late 2019",
+        "description": "Studying platform",
+        "thumbnail": "\/images\/padxu.png",
+        "type": "full-stack"
+    },
+    "ianepal": {
+        "showName": "Infinity Adventures Nepal",
+        "tags": [
+            "full stack",
+            "laravel",
+            "bootstrap",
+            "html5"
+        ],
+        "time": "early 2020",
+        "description": "Trekking site with custom admin panel for treks, blogs, slider and more...",
+        "thumbnail": "\/images\/ianepal.png"
+    },
+    "jcdcnepal": {
+        "showName": "Jagaran Community Development Centre",
+        "tags": [
+            "laravel",
+            "full stack",
+            "html5"
+        ],
+        "time": "early 2020",
+        "description": "NGO site with admin panel for dynamic gallery, static pages, slider and more..."
+    },
+    "macro-calculator": {
+        "showName": "Macros calculator for Gravity Challenges",
+        "time": "early 2019",
+        "tags": [
+            "front-end",
+            "jquery",
+            "html5"
+        ],
+        "description": "Front end design of Macros calculator by designing custom web components."
+    }
+}

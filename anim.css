@@ -1,0 +1,52 @@
+@keyframes fadeIn {
+	from{
+		opacity: 0 ;
+	}
+	to{
+		opacity: 1 ;
+	}
+}
+@keyframes fadeOut {
+	from{
+		opacity: 1 ;
+	}
+	to{
+		opacity: 0 ;
+	}
+}
+.fadeIn{
+	animation-name: fadeIn;
+	animation-fill-mode: forwards;
+}
+.fadeOut{
+	animation-name: fadeOut;
+	animation-fill-mode: forwards;
+}
+@keyframes enlarge {
+	from{
+		/*margin-left: -200px;*/
+		transform: scaleY(0);
+	}
+	to{
+		/*margin-left: 10px;*/
+		transform: scaleY(1);
+	}
+}
+@keyframes shrink {
+	from{
+		/*margin-left: 10px;*/
+		transform: scaleY(1);
+	}
+	to{
+		/*margin-left: -200px;*/
+		transform: scaleY(0);
+	}
+}
+.shrink{
+	animation-name: shrink;
+	animation-fill-mode: forwards;
+}
+.enlarge{
+	animation-name: enlarge;
+	animation-fill-mode: forwards;
+}

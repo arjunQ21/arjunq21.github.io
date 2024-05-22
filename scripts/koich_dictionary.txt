@@ -1,0 +1,7 @@
+{
+    "name" : "Koich Dictionary",
+    "latest_version" : 1.0,
+    "footer_title": "Developed By",
+    "footer_desc": "arjunQ21",
+    "enabled": true
+}
